@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "bd-warehouse",
+  "private_key_id": "0e1d82823bedd149c820c0d7c81e85902069c83e",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCm53OV1imKJUAc\nttkVo+DyWe2IQWMSOaKKiTT5dAA5H0Wbx2oWm++zIfbl8PeMEafWmhWe837acd/9\nhER+MGT2pFI81gvV1naawpJnIZ7IrWHbWV/2sVs5xuMZGWsJBfU+okqNPee1Cyl3\nyZvUs29lFonzH8nSZIMKtFIoffhU/NEAQgtyQZZLMenQIJqK6ni6j7x8QIXKI8sO\n2oXWCxEwEFVzR6LUs5HqHJnWwkwuxDIHaVraTTdggQWvc9tB6ldczisu2oJNbciH\npqxUqy+80DfTD0G+weT196N9mCFrwVYSxinLM9dP3VNKjb4K3dngh7hofEpyoJGo\nw7XAvs8vAgMBAAECggEAMlEVlgb2B/k57k4rfOwmXTnCM/EuemiYuXYq28deZ9on\nJJMGRyGkrlbfdavjHT2XYUmbmgtjY1ywP+AXvAk/7uFUD5YiBEn/AKIG/AN1OJ+Y\noEW9+gO28mCkx0TT8Wjz6fmISzNt/rUKP9wuV/3uZ8XXOc4MDJsTrG73U9DCRHBk\ndjo3/n4rgKBGyMg0QEabdZPNjRvz/5wo6InCTiTb42JGzxFALkSjKLMqxevKequG\nEe2H2dw6nCgCGPQNy+kO5NbeibgUlpHTXuJHJXeI4LDl6ryIh/03oAsj69YvlCo6\nkYnXmSNB4tNi3mNLu8WcfmxwzmEyLUHEiBUbMRQOxQKBgQDclS7OTyhdlTvUbSKr\nO/vw6o3BDI7TPnybWk6r+xtbdlltn0wclP2V6n5/BgOnvWRVlQPyNxJ+LvlWwKHx\nGn5uSQDPVqtDNZsgBNi0V3xVu/8ywctBqhLCBh/ZU/C6H0nV1RqLCEHaVmJukNtO\nOPNHNWS2N/73FC0rw4KZBHYcPQKBgQDBs92m3u3XWOZUMGNbKd0CbFhDCdTwess4\nRhkG9CRs6OvqxXabckqSJ2443J56RkQhOvONEWPAoeEpbGKkbQDInVn1ORonoDQ5\n3G1LnGkYhK8QdiMoNWrCpjXzDj3lGD08fcA7r21g3cLjGICEmjCW9PRIQd1w09lu\ndk0F0y6z2wKBgEXvHlnWiuuwprlgqH81k1j8ZFjyTE35H7R5Wzv3buL+kLfKq2zc\nZ9Gh+Nz44SvLRgZEKm4eu8Q5zF+Oz0kLp0374z/ZMI8sbbQnFTWIDyl3Yx+KhZCa\nBTxyiKJ0lHvN87DR0YqG4aoBfU+kqYMRV0AaU4XaFwHq6a9YWw18dp3ZAoGAYbEy\nX//dGpgWim1hHtBNS/SSyzTBNYvoxHfuFWi6mkca/OwcNqf83huO5pS2RNr9b3kI\n7qPPmI7MPZURZvYmyAc8IIZtH4EX9fqrENBQ3PHGTVoXvya5snQbj3smUk3YTJLr\nie6fDpSpvtlTsA0H5oqiTXMSmN3vsltt2zs4ObMCgYEAzuidfqU/vv8DOgU0jEfu\nh9mfp86LM+dQY/e4R2duE0lKSEGFBvxWSIVOZ5sC1dJlTDub2i7C27tSriwYxMnO\nR7mi7Ij3zE56HDQB+N00M8d1cDI48bH3PqsNu2pVZ7UIOu8jDgD4xfipu0G0KmIO\nOXl26qjBLWjZkbEK+ZDCkrc=\n-----END PRIVATE KEY-----\n",
+  "client_email": "kajabi-member-form-test@bd-warehouse.iam.gserviceaccount.com",
+  "client_id": "116678273193266109595",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/kajabi-member-form-test%40bd-warehouse.iam.gserviceaccount.com"
+}
