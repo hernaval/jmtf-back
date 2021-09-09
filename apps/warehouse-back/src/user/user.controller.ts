@@ -1,4 +1,4 @@
-import { Controller, Get, Logger, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Logger, Param, Post } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './schema/User.schema';
 import { UserService } from './user.service';
@@ -16,7 +16,7 @@ export class UserController {
     return await this.userService.findOne(id);
   }
   @Post()
-  async createUser(createUserDto: CreateUserDto): Promise<User> {
+  async createUser(@Body() createUserDto: CreateUserDto): Promise<User> {
     Logger.debug(`user request: ${JSON.stringify(createUserDto)}`);
     return await this.userService.create(createUserDto);
   }
