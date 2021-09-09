@@ -1,28 +1,25 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
-import { UserModule } from './user/user.module';
-import { SheetModule } from './sheet/sheet.module';
-import { SyncModule } from './sync/sync.module';
+import { SyncModule } from 'apps/warehouse-back/src/sync/sync.module';
+import { ConsumerController } from './consumer.controller';
+import { ConsumerService } from './consumer.service';
+import { SheetController } from './sheet/sheet.controller';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
     }),
+    SyncModule,
     MongooseModule.forRootAsync({
       useFactory: (config: ConfigService) => ({
         uri: config.get('DATABASE_URL'),
       }),
       inject: [ConfigService],
     }),
-    UserModule,
-    SheetModule,
-    SyncModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [ConsumerController, SheetController],
+  providers: [ConsumerService],
 })
-export class AppModule {}
+export class ConsumerModule {}

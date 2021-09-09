@@ -1,4 +1,57 @@
 {
   "collection": "@nestjs/schematics",
-  "sourceRoot": "src"
+  "sourceRoot": "apps/warehouse-back/src",
+  "monorepo": true,
+  "root": "apps/warehouse-back",
+  "compilerOptions": {
+    "webpack": true,
+    "tsConfigPath": "apps/warehouse-back/tsconfig.app.json"
+  },
+  "projects": {
+    "warehouse-back": {
+      "type": "application",
+      "root": "apps/warehouse-back",
+      "entryFile": "main",
+      "sourceRoot": "apps/warehouse-back/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/warehouse-back/tsconfig.app.json"
+      }
+    },
+    "consa": {
+      "type": "application",
+      "root": "apps/consa",
+      "entryFile": "main",
+      "sourceRoot": "apps/consa/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/consa/tsconfig.app.json"
+      }
+    },
+    "consumer": {
+      "type": "application",
+      "root": "apps/consumer",
+      "entryFile": "main",
+      "sourceRoot": "apps/consumer/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/consumer/tsconfig.app.json"
+      }
+    },
+    "shared": {
+      "type": "library",
+      "root": "libs/shared",
+      "entryFile": "index",
+      "sourceRoot": "libs/shared/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/shared/tsconfig.lib.json"
+      }
+    },
+    "shareds": {
+      "type": "library",
+      "root": "libs/shareds",
+      "entryFile": "index",
+      "sourceRoot": "libs/shareds/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/shareds/tsconfig.lib.json"
+      }
+    }
+  }
 }

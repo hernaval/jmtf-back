@@ -8,7 +8,7 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
-    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "format": "prettier --write \"apps/**/*.ts\" \"libs/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
@@ -18,13 +18,16 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./apps/warehouse-back/test/jest-e2e.json"
   },
   "dependencies": {
     "@nestjs/common": "^7.5.1",
     "@nestjs/core": "^7.5.1",
-    "@nestjs/mongoose": "^8.0.1",
+    "@nestjs/microservices": "^7.5.1",
+    "@nestjs/mongoose": "^7.5.1",
     "@nestjs/platform-express": "^7.5.1",
+    "amqp-connection-manager": "^3.6.0",
+    "amqplib": "^0.8.0",
     "googleapis": "^85.0.0",
     "mongoose": "^6.0.5",
     "reflect-metadata": "^0.1.13",
@@ -60,7 +63,7 @@
       "json",
       "ts"
     ],
-    "rootDir": "src",
+    "rootDir": ".",
     "testRegex": ".*\\.spec\\.ts$",
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
@@ -68,7 +71,15 @@
     "collectCoverageFrom": [
       "**/*.(t|j)s"
     ],
-    "coverageDirectory": "../coverage",
-    "testEnvironment": "node"
+    "coverageDirectory": "./coverage",
+    "testEnvironment": "node",
+    "roots": [
+      "<rootDir>/apps/",
+      "<rootDir>/libs/"
+    ],
+    "moduleNameMapper": {
+      "@app/shareds/(.*)": "<rootDir>/libs/shareds/src/$1",
+      "@app/shareds": "<rootDir>/libs/shareds/src"
+    }
   }
 }
