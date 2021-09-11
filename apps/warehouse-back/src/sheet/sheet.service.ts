@@ -1,5 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { CreateUserDto } from '../user/dto/create-user.dto';
+import { SyncUserDto } from '../user/dto/sync-user.dto';
 import { User } from '../user/schema/User.schema';
 import { UserService } from '../user/user.service';
 import { GoogleSheetConfig } from './config/google-api.config';
@@ -33,21 +34,30 @@ export class SheetService {
     return values;
   };
 
-  parseRowsToUserDto = async (rows: any): Promise<CreateUserDto[]> => {
-    const dto: CreateUserDto[] = [];
+  parseRowsToUserDto = async (rows: any): Promise<SyncUserDto[]> => {
+    const dto: SyncUserDto[] = [];
     await rows.forEach((row) => {
-      const createUserDto: CreateUserDto = {
+      const createUserDto: SyncUserDto = {
         firstname: row[1],
         lastname: row[2],
         email: row[3],
-        birthDate: new Date(),
-        phone: '33xxxxxxxxxx',
         address: row[4],
         adressPlus: row[5],
         city: row[6],
         region: row[7],
         country: row[8],
         postalCode: row[9],
+        invoiceOwner: row[10],
+        invoiceAddress: row[11],
+        invoiceAdressPlus: row[12],
+        invoicePostalCode: row[13],
+        invoiceCity: row[14],
+        invoiceRegion: row[15],
+        invoiceCountry: row[16],
+        invoiceTVANumber: row[17],
+        phone: row[18],
+        birthDate: row[19],
+        whatsapp: row[20],
       };
       dto.push(createUserDto);
     });
@@ -56,7 +66,7 @@ export class SheetService {
   };
 
   insertSheetRowsInDB = async (
-    createUserDto: CreateUserDto[],
+    createUserDto: SyncUserDto[],
   ): Promise<User[]> => {
     return await this.userService.createMany(createUserDto);
   };

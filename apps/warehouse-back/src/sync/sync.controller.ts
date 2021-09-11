@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Post } from '@nestjs/common';
 import { SyncService } from './sync.service';
 
 @Controller('sync')
@@ -10,5 +10,10 @@ export class SyncController {
     this.syncService.syncSheetWithBD();
 
     return 'sync sheet adding to queue';
+  }
+
+  @Post('/users')
+  async syncUsers() {
+    return await this.syncService.performSheetSync();
   }
 }

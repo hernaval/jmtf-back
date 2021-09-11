@@ -3,6 +3,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { RabbitMqService } from '../rabbit-mq/rabbit-mq.service';
 import { SheetService } from '../sheet/sheet.service';
 import { CreateUserDto } from '../user/dto/create-user.dto';
+import { SyncUserDto } from '../user/dto/sync-user.dto';
 import { User } from '../user/schema/User.schema';
 @Injectable()
 export class SyncService {
@@ -29,7 +30,7 @@ export class SyncService {
    */
   performSheetSync = async (): Promise<User[]> => {
     const sheetRows: any = await this.sheetService.getSheetRows();
-    const createdUserDto: CreateUserDto[] =
+    const createdUserDto: SyncUserDto[] =
       await this.sheetService.parseRowsToUserDto(sheetRows);
 
     return await this.sheetService.insertSheetRowsInDB(createdUserDto);

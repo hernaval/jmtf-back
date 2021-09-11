@@ -12,9 +12,9 @@ export class User {
   email: string;
 
   @Prop()
-  birthDate?: Date;
+  birthDate: Date;
 
-  @Prop({ required: true })
+  @Prop()
   phone: string;
 
   @Prop()
@@ -38,35 +38,35 @@ export class User {
   @Prop({ required: true })
   country: string;
 
-  @Prop({ required: true })
-  entryDate: string;
+  @Prop()
+  entryDate?: string;
 
   @Prop({ required: true, default: false })
   isFbGroupMember: boolean;
 
-  @Prop({ required: true })
-  invoiceOwner: string;
+  @Prop()
+  invoiceOwner?: string;
 
-  @Prop({ required: true })
-  invoiceAddress: string;
+  @Prop()
+  invoiceAddress?: string;
 
   @Prop()
   invoiceAdressPlus?: string;
 
-  @Prop({ required: true })
-  invoicePostalCode: string;
+  @Prop()
+  invoicePostalCode?: string;
 
-  @Prop({ required: true })
-  invoiceCity: string;
+  @Prop()
+  invoiceCity?: string;
 
-  @Prop({ required: true })
-  invoiceRegion: string;
+  @Prop()
+  invoiceRegion?: string;
 
-  @Prop({ required: true })
-  invoiceCountry: string;
+  @Prop()
+  invoiceCountry?: string;
 
-  @Prop({ required: true })
-  invoiceTVANumber: string;
+  @Prop()
+  invoiceTVANumber?: string;
 
   @Prop()
   devis?: string;

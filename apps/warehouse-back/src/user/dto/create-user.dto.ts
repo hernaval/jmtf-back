@@ -2,8 +2,8 @@ export class CreateUserDto {
   firstname: string;
   lastname: string;
   email: string;
-  birthDate?: Date;
-  phone?: string;
+  birthDate: Date;
+  phone: string;
   whatsapp?: string;
   address: string;
   adressPlus?: string;
@@ -12,5 +12,5 @@ export class CreateUserDto {
   region: string;
   country: string;
   entryDate?: Date;
-  isFbGroupMember?: boolean;
+  isFbGroupMember: boolean;
 }
