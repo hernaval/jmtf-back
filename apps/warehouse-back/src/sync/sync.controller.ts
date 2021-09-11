@@ -16,4 +16,9 @@ export class SyncController {
   async syncUsers() {
     return await this.syncService.performSheetSync();
   }
+
+  @Post('/payments')
+  async syncPayments() {
+    return await this.syncService.performPaymentSync();
+  }
 }
