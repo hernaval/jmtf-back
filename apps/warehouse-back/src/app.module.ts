@@ -6,8 +6,6 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { UserModule } from './user/user.module';
 import { SyncModule } from './sync/sync.module';
 import { PaymentModule } from './payment/payment.module';
-import { ServeStaticModule } from '@nestjs/serve-static';
-import { join } from 'path';
 
 @Module({
   imports: [
@@ -19,10 +17,6 @@ import { join } from 'path';
         uri: config.get('DATABASE_URL'),
       }),
       inject: [ConfigService],
-    }),
-    ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'client'),
-      exclude: ['/api/*'],
     }),
     UserModule,
     SyncModule,
