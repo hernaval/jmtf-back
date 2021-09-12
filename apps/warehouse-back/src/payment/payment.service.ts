@@ -57,17 +57,21 @@ export class PaymentService {
     const dto: CreatePayementDto[] = [];
 
     await sources.forEach((item: SyncPaymentDto) => {
+      const email: string = item.emailUser
+        ? item.emailUser.split('_')[0]
+        : item.email;
       dto.push({
         type: item.typeOffer ? PaymentTypeEnum.OFFER : PaymentTypeEnum.TICKET,
         itemId: item.idOffer ?? item.ticket,
         owner: item.nameUser ?? item.name,
-        email: item.emailUser ?? item.email,
+        email,
         date: item.dateTransac ?? item.dateT,
         amount:
           item.typeOffer === 'ONETIME' ? item.priceOffer : item.initialPayOffer,
         status: item.status ?? 'PAYE',
         currency: item.currencyOffer,
         name: item.nameOffer,
+        nameImage: item.imageOffer,
       });
     });
 

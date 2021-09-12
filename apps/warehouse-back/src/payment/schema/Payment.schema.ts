@@ -11,7 +11,7 @@ export class Payment {
   type: string;
 
   @Prop({ required: true })
-  itemId: string;
+  itemId: string; // the id of the offer or the ticket
 
   @Prop({ required: true })
   owner: string;
@@ -26,7 +26,10 @@ export class Payment {
   date: Date;
 
   @Prop({ required: true })
-  name: string;
+  name: string; // the name of the offer
+
+  @Prop({ required: true })
+  nameImage: string; // the image name of the offer
 
   @Prop({ required: true })
   amount: number;
