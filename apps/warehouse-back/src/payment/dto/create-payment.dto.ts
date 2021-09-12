@@ -8,6 +8,7 @@ export class CreatePayementDto {
   status?: string;
   date: Date;
   name: string;
+  nameImage: string;
   amount: number;
   currency: string;
 }

@@ -11,6 +11,7 @@ export class SyncPaymentDto {
   dateT: Date;
   typeOffer?: string;
   nameOffer: string;
+  imageOffer: string;
   initialPayOffer?: number;
   priceOffer?: number;
   currencyOffer: string;
