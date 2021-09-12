@@ -1,8 +1,11 @@
 import { SYNC_SHEET } from '@app/shareds';
 import { Injectable, Logger } from '@nestjs/common';
 import { CreatePayementDto } from '../payment/dto/create-payment.dto';
+import { SyncNextPaymentDto } from '../payment/dto/next_payment/sync-next-payment.dto';
 import { SyncPaymentDto } from '../payment/dto/sync-payment.dto';
+import { NextPaymentService } from '../payment/next-payment.service';
 import { PaymentService } from '../payment/payment.service';
+import { NextPayment } from '../payment/schema/NextPayment.schema';
 import { Payment } from '../payment/schema/Payment.schema';
 import { RabbitMqService } from '../rabbit-mq/rabbit-mq.service';
 import { SheetService } from '../sheet/sheet.service';
@@ -15,6 +18,7 @@ export class SyncService {
     private readonly rabbitMQService: RabbitMqService,
     private readonly sheetService: SheetService,
     private readonly paymentService: PaymentService,
+    private readonly nextPaymentService: NextPaymentService,
   ) {}
   /**
    * sending message as event to queue to ask sheet sync
@@ -55,5 +59,15 @@ export class SyncService {
       await this.paymentService.parseRemoteSourceToPaymentDto(paymentSources);
 
     return await this.paymentService.createMany(createdPaymentDto);
+  };
+
+  performNextPaymentSync = async (): Promise<NextPayment[]> => {
+    const nextPaymentSources: SyncNextPaymentDto[] =
+      await this.nextPaymentService.getAllNextPaymentFromRemoteSource();
+    const cleanData =
+      await this.nextPaymentService.removeAllWithoutNextPaymentDate(
+        nextPaymentSources,
+      );
+    return await this.nextPaymentService.createMany(cleanData);
   };
 }
