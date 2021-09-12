@@ -1,5 +1,9 @@
 import { SYNC_SHEET } from '@app/shareds';
 import { Injectable, Logger } from '@nestjs/common';
+import { CreatePayementDto } from '../payment/dto/create-payment.dto';
+import { SyncPaymentDto } from '../payment/dto/sync-payment.dto';
+import { PaymentService } from '../payment/payment.service';
+import { Payment } from '../payment/schema/Payment.schema';
 import { RabbitMqService } from '../rabbit-mq/rabbit-mq.service';
 import { SheetService } from '../sheet/sheet.service';
 import { CreateUserDto } from '../user/dto/create-user.dto';
@@ -10,6 +14,7 @@ export class SyncService {
   constructor(
     private readonly rabbitMQService: RabbitMqService,
     private readonly sheetService: SheetService,
+    private readonly paymentService: PaymentService,
   ) {}
   /**
    * sending message as event to queue to ask sheet sync
@@ -23,7 +28,7 @@ export class SyncService {
   };
 
   /**
-   * this is the background task
+   * this is a background task
    * fetch rows and parse it
    * create users in mongodb
    * @returns Promise<User[]>
@@ -34,5 +39,21 @@ export class SyncService {
       await this.sheetService.parseRowsToUserDto(sheetRows);
 
     return await this.sheetService.insertSheetRowsInDB(createdUserDto);
+  };
+  /**
+   * this is a background task
+   * fetch payment from remote source
+   * parse it to payment dto
+   * create payment in mongodb
+   * @return Payment[]
+   * @memberof SyncService
+   */
+  performPaymentSync = async (): Promise<Payment[]> => {
+    const paymentSources: SyncPaymentDto[] =
+      await this.paymentService.getAllPaymentFromRemoteSource();
+    const createdPaymentDto: CreatePayementDto[] =
+      await this.paymentService.parseRemoteSourceToPaymentDto(paymentSources);
+
+    return await this.paymentService.createMany(createdPaymentDto);
   };
 }

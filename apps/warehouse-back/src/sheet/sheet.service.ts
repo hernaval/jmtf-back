@@ -33,7 +33,13 @@ export class SheetService {
     values.shift();
     return values;
   };
-
+  /**
+   * sheet rows does not contains any key
+   * so we need to match our dto attribute based on row index
+   * @return SyncUserDto[]
+   * @param {*} rows
+   * @memberof SheetService
+   */
   parseRowsToUserDto = async (rows: any): Promise<SyncUserDto[]> => {
     const dto: SyncUserDto[] = [];
     await rows.forEach((row) => {

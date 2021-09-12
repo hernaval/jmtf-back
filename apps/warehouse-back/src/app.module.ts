@@ -5,9 +5,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UserModule } from './user/user.module';
 import { SyncModule } from './sync/sync.module';
-import { RabbitMqService } from './rabbit-mq/rabbit-mq.service';
-import { RabbitMqModule } from './rabbit-mq/rabbit-mq.module';
-
+import { PaymentService } from './payment/payment.service';
+import { PaymentModule } from './payment/payment.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -21,6 +20,7 @@ import { RabbitMqModule } from './rabbit-mq/rabbit-mq.module';
     }),
     UserModule,
     SyncModule,
+    PaymentModule,
   ],
   controllers: [AppController],
   providers: [AppService],
