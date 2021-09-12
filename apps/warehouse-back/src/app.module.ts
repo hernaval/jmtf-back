@@ -5,8 +5,10 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UserModule } from './user/user.module';
 import { SyncModule } from './sync/sync.module';
-import { PaymentService } from './payment/payment.service';
 import { PaymentModule } from './payment/payment.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -17,6 +19,10 @@ import { PaymentModule } from './payment/payment.module';
         uri: config.get('DATABASE_URL'),
       }),
       inject: [ConfigService],
+    }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'client'),
+      exclude: ['/api/*'],
     }),
     UserModule,
     SyncModule,
