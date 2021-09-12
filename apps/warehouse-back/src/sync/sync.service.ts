@@ -64,6 +64,10 @@ export class SyncService {
   performNextPaymentSync = async (): Promise<NextPayment[]> => {
     const nextPaymentSources: SyncNextPaymentDto[] =
       await this.nextPaymentService.getAllNextPaymentFromRemoteSource();
-    return await this.nextPaymentService.createMany(nextPaymentSources);
+    const cleanData =
+      await this.nextPaymentService.removeAllWithoutNextPaymentDate(
+        nextPaymentSources,
+      );
+    return await this.nextPaymentService.createMany(cleanData);
   };
 }
