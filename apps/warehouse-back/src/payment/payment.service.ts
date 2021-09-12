@@ -68,6 +68,7 @@ export class PaymentService {
         status: item.status ?? 'PAYE',
         currency: item.currencyOffer,
         name: item.nameOffer,
+        nameImage: item.imageOffer,
       });
     });
 
