@@ -17,6 +17,11 @@ export class PaymentController {
     return await this.paymentService.findAll();
   }
 
+  @Get('/next')
+  async allNextPayments(): Promise<NextPayment[]> {
+    return await this.nextPaymentService.findAll();
+  }
+
   @Get('user/:email')
   async allUserPayments(
     @Param('email') email: string,
