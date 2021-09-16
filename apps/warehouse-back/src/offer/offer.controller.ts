@@ -1,4 +1,5 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
+import { Payment } from '../payment/schema/Payment.schema';
 import { OfferService } from './offer.service';
 
 @Controller('offers')
@@ -8,5 +9,10 @@ export class OfferController {
   @Get()
   async allOffer() {
     return await this.offerService.findAll();
+  }
+
+  @Get(':itemId/users')
+  async allUserOffer(@Param('itemId') itemId: string): Promise<Payment[]> {
+    return await this.offerService.findByItemIdInPayement(itemId);
   }
 }

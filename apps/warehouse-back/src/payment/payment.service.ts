@@ -2,6 +2,7 @@ import { ALL_PAYMENT_URL } from '@app/shareds';
 import { HttpService, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { async } from 'rxjs';
 import { CreatePayementDto } from './dto/create-payment.dto';
 import { SyncPaymentDto } from './dto/sync-payment.dto';
 import {
@@ -31,6 +32,15 @@ export class PaymentService {
   ): Promise<Payment[]> => {
     return await this.paymentModel.insertMany(createPaymentDto);
   };
+  /**
+   * retrieve offers buying by a user
+   * @param {string} itemId
+   * @memberof PaymentService
+   */
+  findByItemId = async (itemId: string): Promise<Payment[]> => {
+    return await this.paymentModel.find({ itemId }).exec();
+  };
+
   /**
    * retrieve all transactions in MIPS DB
    * @Return  Promise<SyncPaymentDto[]>

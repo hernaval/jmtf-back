@@ -2,6 +2,8 @@ import { ALLL_TICKET_URL, ALL_OFFER_URL } from '@app/shareds';
 import { HttpService, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { PaymentService } from '../payment/payment.service';
+import { Payment } from '../payment/schema/Payment.schema';
 import { CreateOfferDto } from './schema/dto/CreateOfferDto';
 import { SyncOfferDto } from './schema/dto/SyncOfferDto';
 import { Offer, OfferDocument } from './schema/Offer.schema';
@@ -11,6 +13,7 @@ export class OfferService {
   constructor(
     @InjectModel(Offer.name) private readonly offerModel: Model<OfferDocument>,
     private readonly httpService: HttpService,
+    private readonly paymentService: PaymentService,
   ) {}
 
   findAll = async (): Promise<Offer[]> => {
@@ -23,6 +26,10 @@ export class OfferService {
 
   createMany = async (createOfferDto: CreateOfferDto[]): Promise<Offer[]> => {
     return await this.offerModel.insertMany(createOfferDto);
+  };
+
+  findByItemIdInPayement = async (itemId: string): Promise<Payment[]> => {
+    return await this.paymentService.findByItemId(itemId);
   };
   /**
    * retrieve all offer in MIPS DB
