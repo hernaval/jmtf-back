@@ -15,6 +15,7 @@ export class UserController {
   async oneUser(@Param('id') id: string): Promise<User> {
     return await this.userService.findOne(id);
   }
+
   @Post()
   async createUser(@Body() createUserDto: CreateUserDto): Promise<User> {
     Logger.debug(`user request: ${JSON.stringify(createUserDto)}`);

@@ -26,4 +26,9 @@ export class SyncController {
   async syncNextPayments() {
     return await this.syncService.performNextPaymentSync();
   }
+
+  @Post('/offers')
+  async syncOffers() {
+    return await this.syncService.performOfferAsync();
+  }
 }
