@@ -1,5 +1,9 @@
 import { SYNC_SHEET } from '@app/shareds';
 import { Injectable, Logger } from '@nestjs/common';
+import { OfferService } from '../offer/offer.service';
+import { CreateOfferDto } from '../offer/schema/dto/CreateOfferDto';
+import { SyncOfferDto } from '../offer/schema/dto/SyncOfferDto';
+import { Offer } from '../offer/schema/Offer.schema';
 import { CreatePayementDto } from '../payment/dto/create-payment.dto';
 import { SyncNextPaymentDto } from '../payment/dto/next_payment/sync-next-payment.dto';
 import { SyncPaymentDto } from '../payment/dto/sync-payment.dto';
@@ -9,7 +13,6 @@ import { NextPayment } from '../payment/schema/NextPayment.schema';
 import { Payment } from '../payment/schema/Payment.schema';
 import { RabbitMqService } from '../rabbit-mq/rabbit-mq.service';
 import { SheetService } from '../sheet/sheet.service';
-import { CreateUserDto } from '../user/dto/create-user.dto';
 import { SyncUserDto } from '../user/dto/sync-user.dto';
 import { User } from '../user/schema/User.schema';
 @Injectable()
@@ -19,6 +22,7 @@ export class SyncService {
     private readonly sheetService: SheetService,
     private readonly paymentService: PaymentService,
     private readonly nextPaymentService: NextPaymentService,
+    private readonly offerService: OfferService,
   ) {}
   /**
    * sending message as event to queue to ask sheet sync
@@ -69,5 +73,14 @@ export class SyncService {
         nextPaymentSources,
       );
     return await this.nextPaymentService.createMany(cleanData);
+  };
+
+  performOfferAsync = async (): Promise<Offer[]> => {
+    const offerSource: SyncOfferDto[] =
+      await this.offerService.getAllOfferFromRemoteSource();
+    const createOfferDto: CreateOfferDto[] =
+      await this.offerService.parseRemoteSourceToPaymentDto(offerSource);
+
+    return await this.offerService.createMany(createOfferDto);
   };
 }

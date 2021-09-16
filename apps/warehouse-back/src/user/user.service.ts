@@ -19,6 +19,10 @@ export class UserService {
     return await this.userModel.findById(id).exec();
   };
 
+  findByEmail = async (email: string): Promise<User> => {
+    return await this.userModel.findOne({ email }).exec();
+  };
+
   createMany = async (
     createUserDto: CreateUserDto[] | SyncUserDto[],
   ): Promise<User[]> => {
