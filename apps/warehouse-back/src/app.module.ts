@@ -8,6 +8,7 @@ import { SyncModule } from './sync/sync.module';
 import { PaymentModule } from './payment/payment.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { OfferModule } from './offer/offer.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { join } from 'path';
     UserModule,
     SyncModule,
     PaymentModule,
+    OfferModule,
   ],
   controllers: [AppController],
   providers: [AppService],
