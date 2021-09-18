@@ -2,8 +2,8 @@ export class SyncUserDto {
   firstname: string;
   lastname: string;
   email: string;
-  birthDate: Date;
-  phone: string;
+  birthDate?: Date;
+  phone?: string;
   whatsapp?: string;
   address: string;
   adressPlus?: string;

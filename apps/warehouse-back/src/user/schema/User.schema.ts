@@ -8,14 +8,14 @@ export class User {
   @Prop({ required: true })
   lastname: string;
 
-  @Prop({ required: true, unique: true })
+  @Prop({ required: true })
   email: string;
 
   @Prop()
-  birthDate: Date;
+  birthDate?: Date;
 
   @Prop()
-  phone: string;
+  phone?: string;
 
   @Prop()
   whatsapp?: string;
