@@ -4,6 +4,8 @@
 
 # environment
 .env
+.main.env
+.develop.env
 
 
 # Logs
