@@ -1,0 +1,39 @@
+services :
+  - docker:19.03.7-dind
+
+stages:
+  - build and push docker image
+  - deploy
+
+
+docker build:
+  image : docker:stable
+  stage : build and push docker image
+  before_script :
+    - source .${CI_COMMIT_REF_NAME}.env
+  script :
+    - docker build -t $DOCKER_REPO .
+    - docker login -u $DOCKER_USER -p $DOCKER_PASSWORD docker.io
+    - docker push $DOCKER_REPO
+  only:
+    - develop
+    - main
+
+deploy:
+  image: ubuntu:latest
+  stage : deploy
+  before_script :
+    - 'which ssh-agent || (apt-get update -y && apt-get install openssh-client -y )'
+    - eval $(ssh-agent -s)
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - echo 'echo $SSH_PASSPHRASE' > ~/.ssh/tmp && chmod 700 ~/.ssh/tmp
+    - echo $SSH_PRIVATE_KEY
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | DISPLAY=None SSH_ASKPASS=~/.ssh/tmp ssh-add -
+    - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+    - source .${CI_COMMIT_REF_NAME}.env
+  script :
+    - ssh root@$SERVER_IP "docker login -u $DOCKER_USER -p $DOCKER_PASSWORD docker.io; docker stop $APP_NAME; docker system prune -a -f; docker pull $DOCKER_REPO; docker container run -d --name $APP_NAME -p $PORT:4300  $DOCKER_REPO; docker logout"
+  only:
+    - develop
+    - main
