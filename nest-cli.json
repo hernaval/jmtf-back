@@ -5,7 +5,9 @@
   "root": "apps/warehouse-back",
   "compilerOptions": {
     "webpack": true,
-    "tsConfigPath": "apps/warehouse-back/tsconfig.app.json"
+    "tsConfigPath": "apps/warehouse-back/tsconfig.app.json",
+    "assets": ["mail/templates/**/*"],
+    "watchAssets": true
   },
   "projects": {
     "warehouse-back": {
