@@ -5,6 +5,7 @@ import { UserService } from './user.service';
 import { LoginUserDto } from './dto/login-user.dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { UserDecorator } from './decorators/user.decorator';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Controller('users')
 export class UserController {
@@ -54,6 +55,26 @@ export class UserController {
     @Body() data: {email: string}
   ) {
     return await this.userService.forgot(data);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('updatePersonalInformation')
+  async updatePersonalInformation(
+    @UserDecorator() user,
+    @Body() data: UpdateUserDto
+  ) {
+    const userId = user._doc._id.toString();
+    return await this.userService.updatePersonalInformation(userId, data);
+  }
+  
+  @UseGuards(JwtAuthGuard)
+  @Post('changePassword')
+  async changePassword(
+    @UserDecorator() user,
+    @Body() data: {oldPassword: string, newPassword: string}
+  ) {
+    const userId = user._doc._id.toString();
+    return await this.userService.changePassword(userId, data);
   }
 
 }

@@ -151,7 +151,10 @@ export class UserService {
   }
 
   updatePersonalInformation = async (userId: string, data: UpdateUserDto) => {
-    // const user = await this.userModel.findByIdAndUpdate(userId, data).exec();
+    const user = await this.userModel.findByIdAndUpdate(userId, data).exec();
+    return {
+      success: true
+    }
   }
 
   changePassword = async (userId: string, data: {oldPassword: string, newPassword: string}) => {
