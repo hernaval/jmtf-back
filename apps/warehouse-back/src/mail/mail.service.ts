@@ -6,7 +6,6 @@ export class MailService {
   constructor(private mailerService: MailerService) {}
 
   async testSendMail(email: string) {
-    console.log('The email ', email)
     await this.mailerService.sendMail({
       to: email,
       // from: '"Support Team" <support@example.com>', // override default from

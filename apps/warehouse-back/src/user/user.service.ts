@@ -6,12 +6,15 @@ import { SyncUserDto } from './dto/sync-user.dto';
 import { User, UserDocument } from './schema/User.schema';
 import { LoginUserDto } from './dto/login-user.dto';
 import { MailService } from '../mail/mail.service';
+import { JwtService } from '@nestjs/jwt';
+import { UpdateUserDto } from './dto/update-user.dto';
 
-@Injectable()
+@Injectable() 
 export class UserService {
   constructor(
     @InjectModel(User.name) private readonly userModel: Model<UserDocument>,
-    private mailService: MailService
+    private mailService: MailService,
+    private jwtService: JwtService
   ) {}
 
   findAll = async (): Promise<User[]> => {
@@ -33,15 +36,18 @@ export class UserService {
   };
 
   create = async (createUserDto: CreateUserDto): Promise<User> => {
+    let data = createUserDto;
+    data.password = await this.generatePassword(12); 
+    await this.mailService.sendNewPassword(data.email, data.password);
     return await new this.userModel({
-      ...createUserDto,
+      ...data,
       createdAt: new Date(),
     }).save();
   };
 
   testMail = async (email: string) => {
     return await this.mailService.testSendMail(email);
-  }
+  };
 
   login = async (loginUserDto: LoginUserDto): Promise<any> => {
     const user = await this.userModel.findOne({ email: loginUserDto.email }).exec();
@@ -49,30 +55,65 @@ export class UserService {
       return {
         error: true,
         message: 'Votre email n\'est pas un membre'
+      }
+    }
+    if (user.password === null) {
+      const newPassword = await this.generatePassword(12);
+      user.password = newPassword;
+      await user.save();
+      await this.mailService.sendNewPassword(user.email, user.password);
+      return {
+        error: true,
+        message: 'Votre mot de passe a été généré automatiquement. \
+        Veuillez vérifier votre email pour vous authentifier'
+      }
+    }
+    if (user.password !== loginUserDto.password) {
+      return {
+        error: true,
+        message: 'Email ou mot de passe incorrect'
       } 
     }
-    console.log(user)
+    const payload =  {
+        id: user._id,
+        email: user.email,
+        firstname : user.firstname,
+        lastname: user.lastname 
+    }
+    const jwt = await this.jwtService.sign(payload);
+    return {
+      token: jwt,
+      id: user._id,
+      email: user.email,
+      firstname : user.firstname,
+      lastname: user.lastname 
+    }
   };
 
   forgot = async (data): Promise<any> => {
-    const user = await this.userModel.findOne({ email: data.email }).exec();
+    let user = await this.userModel.findOne({ email: data.email }).exec();
     if (!user) {
       return {
         error: true,
         message: 'Votre email n\'est pas un membre'
       }
-    }
-
-    const newPassword = await this.generatePassword(12);
+  };
+  
+    const newPassword = await this.generatePassword(12); 
+    user.password = newPassword;
+    user.save();
+    await this.mailService.sendNewPassword(data.email, newPassword);
     return {
-      password: newPassword
+      success: true,
+      message: 'un email vous est envoyé'
     }
-  }
+  };
+
 
   generatePassword = async (passwordLength): Promise<string> => {
-    var numberChars = "0123456789";
-    var upperChars = "ABCD@EFGHIJK/LMN!%OPQR.STUVWXYZ";
-    var lowerChars = "a@bcde@fghij:klmno!!pqr!!stuvwxyz";
+    var numberChars = "0&123456789";
+    var upperChars = "ABC&D@EFGHIJKLMN!%OPQR.S$TUVWXYZ";
+    var lowerChars = "a@bcde@fghij:klm&no!!pqr!!stu$vw$xyz";
     var allChars = numberChars + upperChars + lowerChars; 
     var randPasswordArray = Array(passwordLength);
     randPasswordArray[0] = numberChars;
@@ -80,7 +121,7 @@ export class UserService {
     randPasswordArray[2] = lowerChars;
     randPasswordArray = randPasswordArray.fill(allChars, 3);
     return this.shuffleArray(randPasswordArray.map(function(x) { return x[Math.floor(Math.random() * x.length)] })).join('');
-  }
+  };
   
   shuffleArray = (array) => {
     for (var i = array.length - 1; i > 0; i--) {
@@ -90,18 +131,43 @@ export class UserService {
       array[j] = temp;
     }
     return array;
-  }
+  };
 
+  // Immportant for the first time
   reinitAllUsersPassword = async () => {
     const users = await this.userModel.find().exec();
     users.forEach(async(user) => {
       const newPassword = await this.generatePassword(12);
-      const newData = {
-        password: newPassword
-      }
-      await this.userModel.findOneAndUpdate({email: user.email}, newData, {upsert: true}, 
-        function(err, doc) {})
+      user.password = newPassword;
+      user.save();
+      await this.mailService.sendNewPassword(user.email, newPassword);
     })
+  };
+
+  getInformation = async (userId: string) => {
+    const user = await this.userModel.findById(userId).exec();
+    const {password, ...result} = user;
+    return result;
+  }
+
+  updatePersonalInformation = async (userId: string, data: UpdateUserDto) => {
+    // const user = await this.userModel.findByIdAndUpdate(userId, data).exec();
+  }
+
+  changePassword = async (userId: string, data: {oldPassword: string, newPassword: string}) => {
+    const user = await this.userModel.findById(userId).exec();
+    if (user.password !== data.oldPassword) {
+      return {
+        error: true,
+        message: 'Mot de passe incorrect'
+      }
+    }
+    user.password = data.newPassword;
+    await user.save();
+    return {
+      success: true,
+      message: 'Mot de passe modifié'
+    }
   }
 
 }
