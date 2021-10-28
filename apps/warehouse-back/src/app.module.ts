@@ -9,6 +9,7 @@ import { PaymentModule } from './payment/payment.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { OfferModule } from './offer/offer.module';
+import { MailModule } from './mail/mail.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { OfferModule } from './offer/offer.module';
     SyncModule,
     PaymentModule,
     OfferModule,
+    MailModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -13,4 +13,5 @@ export class CreateUserDto {
   country: string;
   entryDate?: Date;
   isFbGroupMember: boolean;
+  password?: string;
 }
