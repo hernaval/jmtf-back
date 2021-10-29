@@ -16,7 +16,6 @@ docker build:
     - docker login -u $DOCKER_USER -p $DOCKER_PASSWORD docker.io
     - docker push $DOCKER_REPO
   only:
-    - develop
     - main
 
 deploy:

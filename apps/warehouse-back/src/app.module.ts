@@ -22,9 +22,9 @@ import { MailModule } from './mail/mail.module';
       }),
       inject: [ConfigService],
     }),
-    ServeStaticModule.forRoot({
+    /* ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'client'),
-    }),
+    }), */
     UserModule,
     SyncModule,
     PaymentModule,
