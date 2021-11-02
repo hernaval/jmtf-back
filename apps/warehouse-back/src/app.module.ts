@@ -10,6 +10,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { OfferModule } from './offer/offer.module';
 import { MailModule } from './mail/mail.module';
+import { KamuModule } from './kamu/kamu.module';
 
 @Module({
   imports: [
@@ -22,14 +23,15 @@ import { MailModule } from './mail/mail.module';
       }),
       inject: [ConfigService],
     }),
-    /* ServeStaticModule.forRoot({
+    ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'client'),
-    }), */
+    }), 
     UserModule,
     SyncModule,
     PaymentModule,
     OfferModule,
     MailModule,
+    KamuModule,
   ],
   controllers: [AppController],
   providers: [AppService],

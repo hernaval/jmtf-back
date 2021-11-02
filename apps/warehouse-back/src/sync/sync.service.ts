@@ -83,4 +83,8 @@ export class SyncService {
 
     return await this.offerService.createMany(createOfferDto);
   };
+
+  performKamuAsync = async ():Promise<void> => {
+    
+  }
 }
