@@ -17,6 +17,14 @@ export class UserController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @Get('verify_token')   
+  async verifyToken(
+    @UserDecorator() user
+  ) { 
+    return user;
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Get('informations')   
   async getInformation(
     @UserDecorator() user
@@ -61,7 +69,7 @@ export class UserController {
   @Post('updatePersonalInformation')
   async updatePersonalInformation(
     @UserDecorator() user,
-    @Body() data: UpdateUserDto
+    @Body() data: any
   ) {
     const userId = user._doc._id.toString();
     return await this.userService.updatePersonalInformation(userId, data);

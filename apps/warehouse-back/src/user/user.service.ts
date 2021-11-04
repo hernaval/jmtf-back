@@ -150,7 +150,7 @@ export class UserService {
     return result;
   }
 
-  updatePersonalInformation = async (userId: string, data: UpdateUserDto) => {
+  updatePersonalInformation = async (userId: string, data: any) => {
     const user = await this.userModel.findByIdAndUpdate(userId, data).exec();
     return {
       success: true
