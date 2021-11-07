@@ -1,5 +1,6 @@
 import { SYNC_SHEET } from '@app/shareds';
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, ValueProvider } from '@nestjs/common';
+import { CsvService } from '../csv/csv.service';
 import { OfferService } from '../offer/offer.service';
 import { CreateOfferDto } from '../offer/schema/dto/CreateOfferDto';
 import { SyncOfferDto } from '../offer/schema/dto/SyncOfferDto';
@@ -13,8 +14,12 @@ import { NextPayment } from '../payment/schema/NextPayment.schema';
 import { Payment } from '../payment/schema/Payment.schema';
 import { RabbitMqService } from '../rabbit-mq/rabbit-mq.service';
 import { SheetService } from '../sheet/sheet.service';
+import { ImcUserDto } from '../user/dto/imc-user.dto';
 import { SyncUserDto } from '../user/dto/sync-user.dto';
 import { User } from '../user/schema/User.schema';
+import { UserService } from '../user/user.service';
+import * as _ from 'lodash';
+
 @Injectable()
 export class SyncService {
   constructor(
@@ -23,6 +28,8 @@ export class SyncService {
     private readonly paymentService: PaymentService,
     private readonly nextPaymentService: NextPaymentService,
     private readonly offerService: OfferService,
+    private readonly userService: UserService,
+    private readonly csvService: CsvService,
   ) {}
   /**
    * sending message as event to queue to ask sheet sync
@@ -83,6 +90,19 @@ export class SyncService {
 
     return await this.offerService.createMany(createOfferDto);
   };
+
+/**
+ * this is normally a background task
+ * get data from csv file
+ * update related user in db
+ * @param {string} filename
+ * @memberof SyncService
+ */
+performImcAsync = async (filename: string):Promise<void> => {
+    const imcData: ImcUserDto[] = await this.csvService.extractDataFromFile(filename) as ImcUserDto[]
+
+    return await this.userService.updateImc(imcData);
+  } 
 
   performKamuAsync = async ():Promise<void> => {
     
