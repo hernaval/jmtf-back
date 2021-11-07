@@ -1,4 +1,4 @@
-import { Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { SyncService } from './sync.service';
 
 @Controller('sync')
@@ -30,5 +30,12 @@ export class SyncController {
   @Post('/offers')
   async syncOffers() {
     return await this.syncService.performOfferAsync();
+  }
+
+  @Post('/users/imc')
+  async syncUserImc(
+    @Body('filename') filename: string,
+  ){
+    return await this.syncService.performImcAsync(filename);
   }
 }

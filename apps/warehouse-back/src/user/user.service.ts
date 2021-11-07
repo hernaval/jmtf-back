@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -8,6 +8,7 @@ import { LoginUserDto } from './dto/login-user.dto';
 import { MailService } from '../mail/mail.service';
 import { JwtService } from '@nestjs/jwt';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { ImcUserDto } from './dto/imc-user.dto';
 
 @Injectable() 
 export class UserService {
@@ -156,6 +157,13 @@ export class UserService {
       success: true
     }
   }
+
+  updateImc = async (data: ImcUserDto[]):Promise<void> => {
+    data.forEach( async (user: ImcUserDto) => {
+        await this.userModel.find({ email: user.Email }).updateMany({isIMCParticipate: true})
+    })
+  }
+
 
   changePassword = async (userId: string, data: {oldPassword: string, newPassword: string}) => {
     const user = await this.userModel.findById(userId).exec();
