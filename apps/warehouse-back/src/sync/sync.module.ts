@@ -6,6 +6,7 @@ import { PaymentModule } from '../payment/payment.module';
 import { UserModule } from '../user/user.module';
 import { SheetModule } from '../sheet/sheet.module';
 import { OfferModule } from '../offer/offer.module';
+import { CsvModule } from '../csv/csv.module';
 
 @Module({
   providers: [SyncService],
@@ -16,6 +17,7 @@ import { OfferModule } from '../offer/offer.module';
     UserModule,
     SheetModule,
     OfferModule,
+    CsvModule,
   ],
   exports: [SyncService],
 })

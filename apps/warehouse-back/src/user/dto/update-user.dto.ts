@@ -10,4 +10,5 @@ export class UpdateUserDto {
     city?: string;
     region?: string;
     country?: string;
+    isIMCParticipate?: boolean;
 }

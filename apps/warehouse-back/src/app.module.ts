@@ -11,6 +11,7 @@ import { join } from 'path';
 import { OfferModule } from './offer/offer.module';
 import { MailModule } from './mail/mail.module';
 import { KamuModule } from './kamu/kamu.module';
+import { CsvModule } from './csv/csv.module';
 
 @Module({
   imports: [
@@ -31,7 +32,6 @@ import { KamuModule } from './kamu/kamu.module';
     PaymentModule,
     OfferModule,
     MailModule,
-    KamuModule,
   ],
   controllers: [AppController],
   providers: [AppService],
