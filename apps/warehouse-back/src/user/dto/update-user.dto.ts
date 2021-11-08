@@ -11,4 +11,12 @@ export class UpdateUserDto {
     region?: string;
     country?: string;
     isIMCParticipate?: boolean;
+    invoiceOwner?: string;
+    invoiceTVANumber?: string;
+    invoiceAddress?: string;
+    invoiceCity?: string;
+    invoiceRegion?: string;
+    invoiceAddressPlus?: string;
+    invoiceCountry?: string;
+    invoicePostalCode?: string;
 }

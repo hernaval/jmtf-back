@@ -151,8 +151,12 @@ export class UserService {
     return result;
   }
 
-  updatePersonalInformation = async (userId: string, data: UpdateUserDto) => {
+  updatePersonalInformation = async (userId: string, data: any) => {
     const user = await this.userModel.findByIdAndUpdate(userId, data).exec();
+    if (!user) return {
+      error: true,
+      message: 'Client introuvable'
+    }
     return {
       success: true
     }
@@ -167,6 +171,7 @@ export class UserService {
 
   changePassword = async (userId: string, data: {oldPassword: string, newPassword: string}) => {
     const user = await this.userModel.findById(userId).exec();
+    console.log(user);
     if (user.password !== data.oldPassword) {
       return {
         error: true,
