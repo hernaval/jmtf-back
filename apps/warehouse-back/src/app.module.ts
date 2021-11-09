@@ -12,6 +12,7 @@ import { OfferModule } from './offer/offer.module';
 import { MailModule } from './mail/mail.module';
 import { KamuModule } from './kamu/kamu.module';
 import { CsvModule } from './csv/csv.module';
+import { ZapierModule } from './zapier/zapier.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { CsvModule } from './csv/csv.module';
     PaymentModule,
     OfferModule,
     MailModule,
+    ZapierModule,
   ],
   controllers: [AppController],
   providers: [AppService],
