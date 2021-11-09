@@ -38,4 +38,12 @@ export class SyncController {
   ){
     return await this.syncService.performImcAsync(filename);
   }
+
+  @Post('/users/imc/test')
+  async syncUserImcTest(
+    @Body('filename') filename: string,
+    @Body('testname') testname: string,
+  ){
+    return await this.syncService.performImcTestSync(filename, testname);
+  }
 }

@@ -19,6 +19,7 @@ import { SyncUserDto } from '../user/dto/sync-user.dto';
 import { User } from '../user/schema/User.schema';
 import { UserService } from '../user/user.service';
 import * as _ from 'lodash';
+import * as imcResult from '../user/constants/imc-constants';
 
 @Injectable()
 export class SyncService {
@@ -104,7 +105,10 @@ performImcAsync = async (filename: string):Promise<void> => {
     return await this.userService.updateImc(imcData);
   } 
 
-  performKamuAsync = async ():Promise<void> => {
-    
+  performImcTestSync = async (filename: string, testname: string):Promise<void> => {
+    const imcData: ImcUserDto[] = await this.csvService.extractDataFromFile(filename) as ImcUserDto[]
+    const imcSuccessData: ImcUserDto[] = imcData.filter(imc => imc.Passed === imcResult.TEST_PASSED)
+
+    return await this.userService.updateSuccessTests(imcSuccessData, testname)
   }
 }

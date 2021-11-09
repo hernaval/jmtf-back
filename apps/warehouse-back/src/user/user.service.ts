@@ -7,8 +7,8 @@ import { User, UserDocument } from './schema/User.schema';
 import { LoginUserDto } from './dto/login-user.dto';
 import { MailService } from '../mail/mail.service';
 import { JwtService } from '@nestjs/jwt';
-import { UpdateUserDto } from './dto/update-user.dto';
 import { ImcUserDto } from './dto/imc-user.dto';
+import * as IMCTest from './constants/imc-constants';
 
 @Injectable() 
 export class UserService {
@@ -167,6 +167,28 @@ export class UserService {
         await this.userModel.find({ email: user.Email }).updateMany({isIMCParticipate: true})
     })
   }
+
+  updateSuccessTests = async (data: ImcUserDto[], testname: string) => {
+    Logger.log(testname)
+    data.forEach( async (user: ImcUserDto) => {
+      console.log(await this.userModel.findOne({email: user.Email}).exec())
+
+      let tests = []
+      
+      switch (testname) {
+        case IMCTest.LEADERSHIP:
+          Logger.log('leadeship')
+          tests.push(IMCTest.LEADERSHIP)
+          break;
+      
+        default:
+          break;
+      }
+
+      await this.userModel.findOne({ email: user.Email }).updateOne({successfulTests: tests})
+    })
+  }
+
 
 
   changePassword = async (userId: string, data: {oldPassword: string, newPassword: string}) => {
