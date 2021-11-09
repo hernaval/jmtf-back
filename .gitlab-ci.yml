@@ -34,5 +34,4 @@ deploy:
   script :
     - ssh root@$SERVER_IP "docker login -u $DOCKER_USER -p $DOCKER_PASSWORD docker.io; docker stop $APP_NAME; docker system prune -a -f; docker pull $DOCKER_REPO; docker container run -d --name $APP_NAME -p $PORT:4300  $DOCKER_REPO; docker logout"
   only:
-    - develop
     - main
