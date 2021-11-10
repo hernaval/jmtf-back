@@ -2,17 +2,21 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 @Schema({ collection: 'jmtf_member' })
 export class User {
+
+  @Prop({ unique: true })
+  kajabiId: string;
+
   @Prop({ required: true })
   firstname: string;
 
-  @Prop({ required: true })
-  lastname: string;
+  @Prop()
+  lastname?: string;
 
   @Prop({ required: true })
   email: string;
 
-  @Prop({ required: true, default: null })
-  password: string;
+  @Prop()
+  password?: string;
 
   @Prop()
   birthDate?: Date;
@@ -23,22 +27,22 @@ export class User {
   @Prop()
   whatsapp?: string;
 
-  @Prop({ required: true })
-  address: string;
+  @Prop()
+  address?: string;
 
   @Prop()
   adressPlus?: string;
 
-  @Prop({ required: true })
-  postalCode: string;
+  @Prop()
+  postalCode?: string;
 
-  @Prop({ required: true })
+  @Prop()
   city: string;
 
-  @Prop({ required: true })
+  @Prop()
   region: string;
 
-  @Prop({ required: true })
+  @Prop()
   country: string;
 
   @Prop()

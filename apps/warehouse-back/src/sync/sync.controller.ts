@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Logger, Post, Query } from '@nestjs/common';
 import { SyncService } from './sync.service';
 
 @Controller('sync')
@@ -13,7 +13,13 @@ export class SyncController {
   }
 
   @Post('/users')
-  async syncUsers() {
+  async syncUsers(
+    @Body() data
+  ) {
+    if(data.query && data.query === 'external') {
+      
+      return await this.syncService.performCsvSync('users.csv');
+    } 
     return await this.syncService.performSheetSync();
   }
 

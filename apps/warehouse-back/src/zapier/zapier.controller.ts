@@ -1,20 +1,19 @@
-import { Body, Controller, Get, Logger } from '@nestjs/common';
+import { Body, Controller, Logger, Post } from '@nestjs/common';
+import { UserService } from '../user/user.service';
 
 @Controller('zapier')
 export class ZapierController {
+    constructor(private readonly userService: UserService) {}
 
-    @Get('test')
-    async getData(@Body() request:any) {
-        Logger.debug('my data')
-        Logger.debug(request)
+    @Post('test')
+    async getData(@Body() request:any): Promise<string> {
+       
+        const { data: {kajabiId} } = request
+        Logger.debug("contactId")
+        Logger.debug(kajabiId)
+        const {email} = await this.userService.findByKajabiId(kajabiId);
 
-        let { data } = request
-        Logger.debug("all emails")
-        Logger.debug(data.emails)
 
-        Logger.debug("String email")
-        Logger.debug(data.emails.split(",").join("|"))
-
-        return "hernavalasco@gmail.com";
+        return email;
     }
 }

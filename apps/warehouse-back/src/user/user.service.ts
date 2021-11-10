@@ -30,6 +30,10 @@ export class UserService {
     return await this.userModel.findOne({ email }).exec();
   };
 
+  findByKajabiId = async (kajabiId: string): Promise<User> => {
+    return await this.userModel.findOne({ kajabiId }).exec();
+  }
+
   createMany = async (
     createUserDto: CreateUserDto[] | SyncUserDto[],
   ): Promise<User[]> => {

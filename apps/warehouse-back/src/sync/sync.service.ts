@@ -56,6 +56,20 @@ export class SyncService {
 
     return await this.sheetService.insertSheetRowsInDB(createdUserDto);
   };
+/**
+ * this is normally a background task
+ * get data from csv file
+ * csv file is normalized to follow SyncUserDto
+ * @param {*} filename
+ * @memberof SyncService
+ */
+performCsvSync = async (filename):Promise<User[]> => {
+    const createdUserDto: SyncUserDto[] = await this.csvService.extractDataFromFile(filename) as SyncUserDto[]
+    // Logger.debug(createdUserDto)
+
+    return await this.userService.createMany(createdUserDto);
+  }
+
   /**
    * this is a background task
    * fetch payment from remote source
