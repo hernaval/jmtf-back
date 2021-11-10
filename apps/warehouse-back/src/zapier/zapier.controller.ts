@@ -8,10 +8,10 @@ export class ZapierController {
     @Post('test')
     async getData(@Body() request:any): Promise<string> {
        
-        const { data: {kajabiId} } = request
+        const { data } = request
         Logger.debug("contactId")
-        Logger.debug(kajabiId)
-        const {email} = await this.userService.findByKajabiId(kajabiId);
+        Logger.debug(data)
+        const {email} = await this.userService.findByKajabiId(data.kajabiId);
 
 
         return email;
