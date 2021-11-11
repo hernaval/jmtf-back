@@ -55,13 +55,44 @@ export class UserService {
   };
 
   login = async (loginUserDto: LoginUserDto): Promise<any> => {
+    // Verify if is admin
+    if (loginUserDto.email === 'admin@admin.com') {
+      if (loginUserDto.password === 'admin') {
+          const payload =  {
+            id: 'admin._id',
+            email: loginUserDto.email,
+            firstname : 'admin',
+            lastname: 'admin',
+            role: 'admin' 
+          }
+          const jwt = await this.jwtService.sign(payload);
+          return {
+            token: jwt,
+            id: 'admin._id',
+            email: loginUserDto.email,
+            firstname : 'admin',
+            lastname: 'admin',
+            role: 'admin' 
+          }
+      } else {
+        return {
+          error: true,
+          message: 'Email / Mot de passe incorrect'
+        }
+      }
+    }
+
+    // If user
     const user = await this.userModel.findOne({ email: loginUserDto.email }).exec();
     if (!user) {
       return {
         error: true,
+        source: 'email',
         message: 'Votre email n\'est pas un membre'
       }
     }
+
+    // Generate Password if password is null
     if (user.password === null) {
       const newPassword = await this.generatePassword(12);
       user.password = newPassword;
@@ -73,17 +104,20 @@ export class UserService {
         Veuillez vérifier votre email pour vous authentifier'
       }
     }
+
     if (user.password !== loginUserDto.password) {
       return {
         error: true,
-        message: 'Email ou mot de passe incorrect'
+        source: 'password',
+        message: 'Mot de passe incorrect'
       } 
     }
     const payload =  {
         id: user._id,
         email: user.email,
         firstname : user.firstname,
-        lastname: user.lastname 
+        lastname: user.lastname,
+        role: 'client'
     }
     const jwt = await this.jwtService.sign(payload);
     return {
@@ -91,7 +125,8 @@ export class UserService {
       id: user._id,
       email: user.email,
       firstname : user.firstname,
-      lastname: user.lastname 
+      lastname: user.lastname,
+      role: 'client'
     }
   };
 
